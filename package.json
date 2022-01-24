@@ -1,0 +1,36 @@
+{
+  "name": "api-secret-message",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "sucrase-node src/main/server.ts",
+    "test": "jest --watch --silent --noStackTrace",
+    "test:ci": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^2.2.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.8",
+    "@types/supertest": "^2.0.11",
+    "@types/validator": "^13.7.1",
+    "jest": "^27.4.7",
+    "sucrase": "^3.20.3",
+    "supertest": "^6.2.1",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.2",
+    "fast-glob": "^3.2.10",
+    "mongodb": "^4.3.0",
+    "validator": "^13.7.0"
+  }
+}
