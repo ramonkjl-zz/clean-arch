@@ -2,6 +2,7 @@ import { AddAccountUseCase } from '../../../../domain/usecases/add-account-useca
 import { InvalidPramError } from '../../../errors/invalid-param-error'
 import { MissingParamError } from '../../../errors/missing-param-error'
 import { badRequest, created, serverError } from '../../../helpers/http-helpers'
+import { Validation } from '../../../helpers/validators/validation'
 import { Controller } from '../../../protocols/controller'
 import { EmailValidator } from '../../../protocols/email-validator'
 import { HttpRequest, HttpResponse } from '../../../protocols/http'
@@ -9,11 +10,16 @@ import { HttpRequest, HttpResponse } from '../../../protocols/http'
 export class SignUpController implements Controller {
   constructor(
     private readonly emailValidator: EmailValidator,
-    private readonly addAccountUseCase: AddAccountUseCase
+    private readonly addAccountUseCase: AddAccountUseCase,
+    private readonly validation: Validation
   ) { }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
+      }
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
 
       for (const field of requiredFields) {

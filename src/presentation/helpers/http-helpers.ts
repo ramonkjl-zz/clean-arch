@@ -1,10 +1,15 @@
-import { createDecipheriv } from "crypto";
-import { ServerError } from "../errors/server-error";
-import { HttpResponse } from "../protocols/http";
+import { ServerError } from '../errors/server-error'
+import { UnauthorizedError } from '../errors/unauthorized-error'
+import { HttpResponse } from '../protocols/http'
 
 export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,
   body: error
+})
+
+export const unauthorized = (): HttpResponse => ({
+  statusCode: 401,
+  body: new UnauthorizedError()
 })
 
 export const serverError = (error: Error): HttpResponse => ({
@@ -14,5 +19,10 @@ export const serverError = (error: Error): HttpResponse => ({
 
 export const created = (data: any): HttpResponse => ({
   statusCode: 201,
+  body: data
+})
+
+export const ok = (data: any): HttpResponse => ({
+  statusCode: 200,
   body: data
 })

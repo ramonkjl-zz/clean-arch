@@ -3,6 +3,8 @@ import { AddAccountModel, AddAccountUseCase } from '../../../../domain/usecases/
 import { InvalidPramError } from '../../../errors/invalid-param-error'
 import { MissingParamError } from '../../../errors/missing-param-error'
 import { ServerError } from '../../../errors/server-error'
+import { badRequest } from '../../../helpers/http-helpers'
+import { Validation } from '../../../helpers/validators/validation'
 import { EmailValidator } from '../../../protocols/email-validator'
 import { SignUpController } from './signup-controller'
 
@@ -37,14 +39,25 @@ const makeAddAccountStub = () => {
   return new AddAccountStub()
 }
 
+const makeValidationStub = () => {
+  class ValidationStub implements Validation {
+    validate(input: any): Error | null {
+      return null
+    }
+  }
+  return new ValidationStub()
+}
+
 const makeSut = () => {
+  const validationStub = makeValidationStub()
   const emailValidatorStub = makeEmailValidatorStub()
   const addAccountStub = makeAddAccountStub()
-  const sut = new SignUpController(emailValidatorStub, addAccountStub)
+  const sut = new SignUpController(emailValidatorStub, addAccountStub, validationStub)
   return {
     sut,
     emailValidatorStub,
-    addAccountStub
+    addAccountStub,
+    validationStub
   }
 }
 
@@ -181,5 +194,27 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(201)
+  })
+
+  test('Deveria chamar o Validation com os valor correto', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate')
+    const httpRequest = {
+      body: {
+        ...makeFakeBodyRequest()
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(validationStub.validate).toBeCalledWith(httpRequest.body)
+  })
+
+  test('Deveria retornar um statusCode 400 se o Validation retornar um error', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
+    const httpRequest = {
+      body: { ...makeFakeBodyRequest() }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
   })
 })
