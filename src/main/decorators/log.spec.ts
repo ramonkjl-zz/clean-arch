@@ -102,6 +102,6 @@ describe('LogController Decorator', () => {
     }
     await sut.handle(httpRequest)
 
-    expect(logErrorRepositoryStub.logError).toEqual('any_stack')
+    expect(logErrorRepositoryStub.logError).toBeCalledWith('any_stack')
   })
 })
