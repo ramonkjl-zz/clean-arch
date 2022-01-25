@@ -41,8 +41,8 @@ const makeAddAccountStub = () => {
 
 const makeValidationStub = () => {
   class ValidationStub implements Validation {
-    validate(input: any): Error | null {
-      return null
+    validate(input: any): Error | undefined {
+      return undefined
     }
   }
   return new ValidationStub()
@@ -62,58 +62,6 @@ const makeSut = () => {
 }
 
 describe('SignUp Controller', () => {
-  test('Deveria retornar um statusCode 400 se o nome não for passado', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        ...makeFakeBodyRequest(),
-        name: null
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('name'))
-  })
-
-  test('Deveria retornar um statusCode 400 se o email não for passado', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        ...makeFakeBodyRequest(),
-        email: null
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('email'))
-  })
-
-  test('Deveria retornar um statusCode 400 se o password não for passado', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        ...makeFakeBodyRequest(),
-        password: null
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('password'))
-  })
-
-  test('Deveria retornar um statusCode 400 se o passwordConfirmation não for passado', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        ...makeFakeBodyRequest(),
-        passwordConfirmation: null
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'))
-  })
-
   test('Deveria retornar um statusCode 400 se o password e o passwordConfirmation não forem iguais', async () => {
     const { sut } = makeSut()
     const httpRequest = {
