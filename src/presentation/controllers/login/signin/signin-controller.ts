@@ -1,12 +1,12 @@
-import { Authentication } from '../../../../domain/usecases/authentication-usecase'
+import { AuthenticationUseCase } from '../../../../domain/usecases/authentication-usecase'
 import { badRequest, ok, serverError, unauthorized, } from '../../../helpers/http-helpers'
-import { Validation } from '../../../helpers/validators/validation'
+import { Validation } from '../../../protocols/validation'
 import { Controller } from '../../../protocols/controller'
 import { HttpRequest, HttpResponse } from '../../../protocols/http'
 
 export class SignInController implements Controller {
   constructor(
-    private readonly authentication: Authentication,
+    private readonly authentication: AuthenticationUseCase,
     private readonly validation: Validation
   ) { }
 
@@ -18,7 +18,7 @@ export class SignInController implements Controller {
       }
       const { email, password } = httpRequest.body
 
-      const accessToken = await this.authentication.auth(email, password)
+      const accessToken = await this.authentication.auth({ email, password })
       if (!accessToken)
         return unauthorized()
 

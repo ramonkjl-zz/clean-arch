@@ -3,7 +3,7 @@ import { AddAccountModel, AddAccountUseCase } from '../../../../domain/usecases/
 import { MissingParamError } from '../../../errors/missing-param-error'
 import { ServerError } from '../../../errors/server-error'
 import { badRequest } from '../../../helpers/http-helpers'
-import { Validation } from '../../../helpers/validators/validation'
+import { Validation } from '../../../protocols/validation'
 import { SignUpController } from './signup-controller'
 
 const makeFakeBodyRequest = () => ({

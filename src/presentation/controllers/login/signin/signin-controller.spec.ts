@@ -1,8 +1,7 @@
-import { Authentication } from '../../../../domain/usecases/authentication-usecase'
-import { InvalidPramError } from '../../../errors/invalid-param-error'
+import { AuthenticationUseCase, AuthenticationModel } from '../../../../domain/usecases/authentication-usecase'
 import { MissingParamError } from '../../../errors/missing-param-error'
 import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http-helpers'
-import { Validation } from '../../../helpers/validators/validation'
+import { Validation } from '../../../protocols/validation'
 import { SignInController } from './signin-controller'
 
 const makeFakeBodyRequest = () => ({
@@ -20,8 +19,8 @@ const makeValidationStub = () => {
 }
 
 const makeAuthentication = () => {
-  class AuthenticationStub implements Authentication {
-    async auth(email: string, password: string): Promise<string> {
+  class AuthenticationStub implements AuthenticationUseCase {
+    async auth(authenticationModel: AuthenticationModel): Promise<string> {
       return 'any_token'
     }
   }
@@ -51,7 +50,7 @@ describe('Sign In Controller', () => {
       }
     }
     await sut.handle(httpRequest)
-    expect(authenticationStub.auth).toBeCalledWith('any_email@mail.com', 'any_password')
+    expect(authenticationStub.auth).toBeCalledWith({ email: 'any_email@mail.com', password: 'any_password' })
   })
 
   test('Deveria retornar 401 se as credenciais forem inválidas', async () => {
