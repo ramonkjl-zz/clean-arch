@@ -13,12 +13,12 @@ export class DbAuthenticationUseCase implements AuthenticationUseCase {
   ) { }
 
   async auth(authenticationModel: AuthenticationModel): Promise<string | null> {
-    const account = await this.loadAccountByEmailRepository.load(authenticationModel.email)
+    const account = await this.loadAccountByEmailRepository.loadByEmail(authenticationModel.email)
     if (account) {
       const isValid = await this.hashComparer.compare(authenticationModel.password, account.password)
       if (isValid) {
         const accessToken = await this.encrypter.encrypt(account.id)
-        await this.updateAccessTokenRepository.update(account.id, accessToken)
+        await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
         return accessToken
       }
     }
