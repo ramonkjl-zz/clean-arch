@@ -13,10 +13,12 @@ services:
     build: .
     image: api-secret-message
     restart: always
-    command: npm start
+    command: npm run debug
     volumes:
       - ./dist:/usr/src/api-secret-message/dist
+      - ./package.json:/usr/src/api-secret-message/package.json
     ports:
       - "5050:5050"
+      - "9222:9222"
     links:
       - mongo
