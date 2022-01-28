@@ -9,8 +9,13 @@
     "strict": true,
     "skipLibCheck": true
   },
+  "include": [
+    "src"
+  ],
   "exclude": [
     "jest.config.ts",
-    "jest-mongodb-config.ts"
+    "jest-mongodb-config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts"
   ]
 }
