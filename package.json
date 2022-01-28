@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/main/server.js",
-    "dev": "sucrase-node src/main/server.ts",
+    "up": "npm run build && docker-compose up -d",
+    "down": "docker-compose down",
     "test": "jest --watch --silent --noStackTrace",
     "test:ci": "jest"
   },
@@ -23,7 +24,6 @@
     "@types/supertest": "^2.0.11",
     "@types/validator": "^13.7.1",
     "jest": "^27.4.7",
-    "sucrase": "^3.20.3",
     "supertest": "^6.2.1",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
