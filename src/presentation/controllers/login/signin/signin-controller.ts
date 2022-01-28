@@ -1,12 +1,12 @@
-import { AddAccountUseCase } from '../../../../domain/usecases/add-account-usecase'
-import { badRequest, created, serverError } from '../../../helpers/http-helpers'
+import { AuthenticationUseCase } from '../../../../domain/usecases/authentication-usecase'
+import { badRequest, ok, serverError, unauthorized, } from '../../../helpers/http-helpers'
 import { Validation } from '../../../protocols/validation'
 import { Controller } from '../../../protocols/controller'
 import { HttpRequest, HttpResponse } from '../../../protocols/http'
 
-export class SignUpController implements Controller {
+export class SignInController implements Controller {
   constructor(
-    private readonly addAccountUseCase: AddAccountUseCase,
+    private readonly authentication: AuthenticationUseCase,
     private readonly validation: Validation
   ) { }
 
@@ -16,16 +16,13 @@ export class SignUpController implements Controller {
       if (error) {
         return badRequest(error)
       }
+      const { email, password } = httpRequest.body
 
-      const { name, email, password } = httpRequest.body
+      const accessToken = await this.authentication.auth({ email, password })
+      if (!accessToken)
+        return unauthorized()
 
-      const account = await this.addAccountUseCase.add({
-        name,
-        email,
-        password
-      })
-
-      return created(account)
+      return ok({ accessToken })
     } catch (error) {
       return serverError(error as Error)
     }

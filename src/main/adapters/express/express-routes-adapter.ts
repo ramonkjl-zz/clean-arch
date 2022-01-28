@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Controller } from "../../presentation/protocols/controller";
-import { HttpRequest } from "../../presentation/protocols/http";
+import { Controller } from "../../../presentation/protocols/controller";
+import { HttpRequest } from "../../../presentation/protocols/http";
 
 const ERRORS = [400, 401, 403, 500]
 
@@ -11,7 +11,7 @@ export const adaptRoute = (controller: Controller) => {
     }
     const httpResponse = await controller.handle(httpRequest)
     if (ERRORS.includes(httpResponse.statusCode)) {
-      return res.status(httpResponse.statusCode).json(httpResponse.body.message)
+      return res.status(httpResponse.statusCode).json({ error: httpResponse.body.message })
     }
     return res.status(httpResponse.statusCode).json(httpResponse.body)
   }
