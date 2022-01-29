@@ -1,8 +1,8 @@
-import { AuthenticationUseCase } from '../../../domain/usecases/authentication-usecase'
-import { badRequest, ok, serverError, unauthorized, } from '../../helpers/http-helpers'
-import { Validation } from '../../protocols/validation'
-import { Controller } from '../../protocols/controller'
-import { HttpRequest, HttpResponse } from '../../protocols/http'
+import { AuthenticationUseCase } from '../../../../domain/usecases/authentication-usecase'
+import { badRequest, ok, serverError, unauthorized, } from '../../../helpers/http-helpers'
+import { Validation } from '../../../protocols/validation'
+import { Controller } from '../../../protocols/controller'
+import { HttpRequest, HttpResponse } from '../../../protocols/http'
 
 export class SignInController implements Controller {
   constructor(

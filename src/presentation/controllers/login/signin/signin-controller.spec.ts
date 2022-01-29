@@ -1,7 +1,7 @@
-import { AuthenticationUseCase, AuthenticationModel } from '../../../domain/usecases/authentication-usecase'
-import { MissingParamError } from '../../errors/missing-param-error'
-import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helpers'
-import { Validation } from '../../protocols/validation'
+import { AuthenticationUseCase, AuthenticationModel } from '../../../../domain/usecases/authentication-usecase'
+import { MissingParamError } from '../../../errors/missing-param-error'
+import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http-helpers'
+import { Validation } from '../../../protocols/validation'
 import { SignInController } from './signin-controller'
 
 const makeFakeBodyRequest = () => ({
