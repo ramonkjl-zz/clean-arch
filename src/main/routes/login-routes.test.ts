@@ -3,7 +3,6 @@ import request from 'supertest'
 import bcrypt from 'bcrypt'
 import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 import app from '../config/app'
-import { Console } from 'console'
 
 let accountCollection: Collection
 describe('Login Routes', () => {
