@@ -37,8 +37,5 @@
     "mongodb": "^4.3.0",
     "nodemon": "^2.0.15",
     "validator": "^13.7.0"
-  },
-  "engines": {
-    "node": "14.x"
   }
 }
